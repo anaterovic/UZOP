@@ -1,0 +1,35 @@
+---
+title: "Code - prosirenje"
+author: "Eleonora Detić"
+date: "1/9/2022"
+output: pdf_document
+---
+
+```{r}
+library(plyr)
+library(readr)
+library(dplyr)
+library(caret)
+library(VGAM)
+library(factoextra)
+```
+
+#učitavanje i sređivanje podataka
+```{r setup, include=FALSE}
+data = read.csv("data_arrhythmia.csv", sep= ";")
+data[data == "?"] = "0"
+data = data %>% mutate_if(is.character,as.integer)
+library(janitor)
+data = remove_constant(data)
+```
+
+
+```{r}
+model = glm (diagnosis~., data=data)
+summary(model)
+step(model, k=2)
+```
+
+
+
+
